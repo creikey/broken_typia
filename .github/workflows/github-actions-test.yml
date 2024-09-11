@@ -2,13 +2,18 @@ name: Test If Bug Exist
 run-name: Test if bug exists
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Test-For-Bug:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Npm Install
+        run: |
+          npm install
       - name: Start Vite in the background and capture output
         run: |
           nohup npx vite > vite_output.log 2>&1 < /dev/null &
