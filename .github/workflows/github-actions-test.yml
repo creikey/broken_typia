@@ -1,0 +1,38 @@
+name: Test If Bug Exist
+run-name: Test if bug exists
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Start Vite in the background and capture output
+        run: |
+          nohup npx vite > vite_output.log 2>&1 < /dev/null &
+          echo $! > vite_pid.txt
+          sleep 5  # Give Vite some time to start up
+
+      - name: Check if Vite is running
+        run: |
+          curl --fail http://localhost:5173 || (echo "Vite server did not start" && exit 1)
+
+      - name: Stop Vite process
+        run: |
+          pid=$(cat vite_pid.txt)
+          kill $pid
+          echo "Vite process with PID $pid stopped."
+
+      - name: Check for ERROR in Vite log and print the log
+        run: |
+          cat vite_output.log
+          if grep -q "ERROR" vite_output.log; then
+            echo "❌ Error found in Vite log"
+            exit 1
+          else
+            echo "✅ No errors in Vite log"
+          fi
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
