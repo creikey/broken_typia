@@ -15,6 +15,10 @@ jobs:
           echo $! > vite_pid.txt
           sleep 5  # Give Vite some time to start up
 
+      - name: Show the vite output
+        run: |
+          cat vite_output.log
+ 
       - name: Check if Vite is running
         run: |
           curl --fail http://localhost:5173 || (echo "Vite server did not start" && exit 1)
