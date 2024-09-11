@@ -11,6 +11,10 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Show npm and node versions
+        run: |
+          npm -v
+          node -v
       - name: Npm Install
         run: |
           npm install
