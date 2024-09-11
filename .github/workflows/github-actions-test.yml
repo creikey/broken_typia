@@ -3,7 +3,7 @@ run-name: Test if bug exists
 on: [push]
 jobs:
   Test-For-Bug:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
